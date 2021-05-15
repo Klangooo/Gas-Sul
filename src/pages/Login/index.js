@@ -9,10 +9,12 @@ export default class escolheProduto extends Component {
     
     
     render() {
+      const { goBack } = this.props.navigation;
         return(
           <View style={styles.container}>
             <TouchableOpacity 
-              style = {styles.seta}>
+              style = {styles.seta}
+              onPress = {()=> goBack()}>
                 <Feather name="chevron-left" size={38} color="#0B0D88" />
             </TouchableOpacity>
             <Image 
