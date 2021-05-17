@@ -39,7 +39,7 @@ export default class escolheProduto extends Component {
               style={styles.gas} />
               <Text style={styles.cardPrice}>R$ XX,XX</Text>
             </View>
-            </View>
+            </View> 
             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
           </View>
         );

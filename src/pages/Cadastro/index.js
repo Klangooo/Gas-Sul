@@ -9,34 +9,31 @@ export default class escolheProduto extends Component {
     
     
     render() {
-      const { goBack } = this.props.navigation;
         return(
           <View style={styles.container}>
             <TouchableOpacity 
-              style = {styles.seta}
-              onPress = {()=> goBack()}>
+              style = {styles.seta}>
                 <Feather name="chevron-left" size={38} color="#0B0D88" />
             </TouchableOpacity>
             <Image 
               source={Logo} 
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
-            <Text style={styles.titulo}>Bem-Vindo(a)!</Text>
+            <Text style={styles.titulo}>Registre-se</Text>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>E-mail</Text>
+            <Text style={styles.cardTitulo}>Nome</Text>
+            </View>
+            <View style={styles.card}>
+            <Text style={styles.cardTitulo}>Endereço de e-mail</Text>
             </View>
             <View style={styles.card}>
             <Text style={styles.cardTitulo}>Senha</Text>
             </View>
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>ENTRE</Text></TouchableOpacity>
-            <Text style={styles.subTitulo}>Esqueceu sua senha?</Text>
-            <table>
-              <tr><td><Divider style={styles.divider1}/></td> 
-              <td><Text style={styles.subTitulo}>OU</Text></td>  
-              <td><Divider style={styles.divider1}/></td> </tr>
-            </table>
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CADASTRE-SE</Text></TouchableOpacity>
-          </View>
+            <View style={styles.card}>
+            <Text style={styles.cardTitulo}>Confirmar senha</Text>
+            </View>
+            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>REGISTRAR</Text></TouchableOpacity>
+        </View>
         );
     }
 
@@ -62,14 +59,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#0B0D88',
         fontWeight: 'bold',
-        paddingBottom: '10%',
-        padding: 10,
+        paddingBottom: '5%',
     },
     titulo: {
         textAlign: 'center',
         color: '#F74B02',
         fontWeight: 'bold',
-        paddingBottom: '10%',
+        paddingBottom: '3%',
         fontSize: 30,
     },
     seta: {
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
       borderColor: "#0B0D88",
       borderWidth: 2,
       borderRadius: 15,
-      shadowRadius: 0.5,
+      shadowRadius: 2,
       backgroundColor: "#E5E6E8",
       marginBottom: '10%',
     },
@@ -108,7 +104,7 @@ const styles = StyleSheet.create({
       resizeMode : "center",
       flex: 0.4,
       height: 150,
-      marginRight: 30
+      marginRight: 30,
     },
     button: {
       borderRadius: 40,
@@ -123,17 +119,7 @@ const styles = StyleSheet.create({
       shadowRadius: 5,
       shadowOffset: {
       height: 1,
-      width: 8 },
+      width: 1 },
       alignSelf: 'center',
     },
-    divider1: {
-      backgroundColor: '#0B0D88',
-      width: 168,
-      height: 2, 
-    },
-    divider2: {
-      backgroundColor: '#0B0D88',
-      width: -130, 
-    },
-
   });
