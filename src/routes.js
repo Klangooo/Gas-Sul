@@ -16,7 +16,7 @@ export default function Rotas() { //Exporta para que possa ser "visto" no resto 
                 <AppStack.Screen name="Tela1" component={Tela1} />
                 <AppStack.Screen name="Login" component={Login} />
                 <AppStack.Screen name="Produtos" component={EscolheProduto} />
-                {/* <AppStack.Screen name="Confirmar" component={ConfirmarPedido} /> */}
+                <AppStack.Screen name="Confirmar" component={ConfirmarPedido} />
             </AppStack.Navigator>
         </NavigationContainer>
     );
