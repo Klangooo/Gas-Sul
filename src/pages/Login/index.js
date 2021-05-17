@@ -21,7 +21,7 @@ export default class escolheProduto extends Component {
               source={Logo} 
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
-            <Text style={styles.titulo}>Seja Bem-Vindo(a)!</Text>
+            <Text style={styles.titulo}>Bem-Vindo(a)!</Text>
             <View style={styles.card}>
             <Text style={styles.cardTitulo}>E-mail</Text>
             </View>
@@ -30,20 +30,11 @@ export default class escolheProduto extends Component {
             </View>
             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>ENTRE</Text></TouchableOpacity>
             <Text style={styles.subTitulo}>Esqueceu sua senha?</Text>
-            <View style={styles.cardContent}>
-              <Image source={Gas1} 
-              style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
-              <Divider style={styles.gas}/>
-            </View>
-
-
-                <Divider style={{ backgroundColor: 'blue' }}/>
-                <Text style={styles.subTitulo}>OU</Text>
-                <Divider style={{ backgroundColor: 'blue' }}/>
-            <View style={styles.cardContent}>
-                <Divider style={{ backgroundColor: 'blue' }}/>
-            </View>
+            <table>
+              <tr><td><Divider style={styles.divider1}/></td> 
+              <td><Text style={styles.subTitulo}>OU</Text></td>  
+              <td><Divider style={styles.divider1}/></td> </tr>
+            </table>
             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CADASTRE-SE</Text></TouchableOpacity>
           </View>
         );
@@ -71,13 +62,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#0B0D88',
         fontWeight: 'bold',
-        paddingBottom: '5%',
+        paddingBottom: '10%',
+        padding: 10,
     },
     titulo: {
         textAlign: 'center',
         color: '#F74B02',
         fontWeight: 'bold',
-        paddingBottom: '3%',
+        paddingBottom: '10%',
         fontSize: 30,
     },
     seta: {
@@ -86,20 +78,21 @@ const styles = StyleSheet.create({
     card: {
       marginLeft: 20,
       marginRight: 20,
-      padding:20,
+      padding:5,
       borderStyle: 'solid',
-      borderColor: "black",
-      borderWidth: 1,
-      borderRadius: 30,
-      shadowRadius: 2,
-      backgroundColor: "white",
+      borderColor: "#0B0D88",
+      borderWidth: 2,
+      borderRadius: 15,
+      shadowRadius: 0.5,
+      backgroundColor: "#E5E6E8",
       marginBottom: '10%',
     },
     cardTitulo: {
       textAlign: 'left',
-      color: '#F74B02',
+      color: '#766f79',
       fontWeight: 'bold',
-      fontSize: 25,
+      fontSize: 17,
+      fontFamily: 'Arial, Helvetica, sans-serif',
     },
     cardContent: {
       flexDirection: "row",
@@ -130,7 +123,17 @@ const styles = StyleSheet.create({
       shadowRadius: 5,
       shadowOffset: {
       height: 1,
-      width: 1 },
+      width: 8 },
       alignSelf: 'center',
     },
+    divider1: {
+      backgroundColor: '#0B0D88',
+      width: 168,
+      height: 2, 
+    },
+    divider2: {
+      backgroundColor: '#0B0D88',
+      width: -130, 
+    },
+
   });

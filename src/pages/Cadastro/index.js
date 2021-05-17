@@ -74,20 +74,21 @@ const styles = StyleSheet.create({
     card: {
       marginLeft: 20,
       marginRight: 20,
-      padding:20,
+      padding:5,
       borderStyle: 'solid',
-      borderColor: "black",
-      borderWidth: 1,
-      borderRadius: 30,
+      borderColor: "#0B0D88",
+      borderWidth: 2,
+      borderRadius: 15,
       shadowRadius: 2,
-      backgroundColor: "white",
+      backgroundColor: "#E5E6E8",
       marginBottom: '10%',
     },
     cardTitulo: {
       textAlign: 'left',
-      color: '#F74B02',
+      color: '#766f79',
       fontWeight: 'bold',
-      fontSize: 25,
+      fontSize: 17,
+      fontFamily: 'Arial, Helvetica, sans-serif',
     },
     cardContent: {
       flexDirection: "row",
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
       resizeMode : "center",
       flex: 0.4,
       height: 150,
-      marginRight: 30
+      marginRight: 30,
     },
     button: {
       borderRadius: 40,
