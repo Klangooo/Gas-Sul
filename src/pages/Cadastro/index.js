@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
-import Gas1 from '../../../assets/propane.png';
+import { Divider } from 'react-native-elements';
 
 export default class escolheProduto extends Component {
 
@@ -19,25 +19,21 @@ export default class escolheProduto extends Component {
               source={Logo} 
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
-            <Text style={styles.titulo}>Escolha seu produto</Text>
+            <Text style={styles.titulo}>Registre-se</Text>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
-            <View style={styles.cardContent}>
-              <Image source={Gas1} 
-              style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
-            </View>
+            <Text style={styles.cardTitulo}>Nome</Text>
             </View>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
-            <View style={styles.cardContent}>
-              <Image source={Gas1} 
-              style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
+            <Text style={styles.cardTitulo}>Endereço de e-mail</Text>
             </View>
-            </View> 
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
-          </View>
+            <View style={styles.card}>
+            <Text style={styles.cardTitulo}>Senha</Text>
+            </View>
+            <View style={styles.card}>
+            <Text style={styles.cardTitulo}>Confirmar senha</Text>
+            </View>
+            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>REGISTRAR</Text></TouchableOpacity>
+        </View>
         );
     }
 

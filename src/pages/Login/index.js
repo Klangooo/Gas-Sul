@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
-import Gas1 from '../../../assets/propane.png';
+import { Divider } from 'react-native-elements';
 
 export default class escolheProduto extends Component {
 
@@ -19,24 +19,30 @@ export default class escolheProduto extends Component {
               source={Logo} 
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
-            <Text style={styles.titulo}>Escolha seu produto</Text>
+            <Text style={styles.titulo}>Seja Bem-Vindo(a)!</Text>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
+            <Text style={styles.cardTitulo}>E-mail</Text>
+            </View>
+            <View style={styles.card}>
+            <Text style={styles.cardTitulo}>Senha</Text>
+            </View>
+            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>ENTRE</Text></TouchableOpacity>
+            <Text style={styles.subTitulo}>Esqueceu sua senha?</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
               <Text style={styles.cardPrice}>R$ XX,XX</Text>
+              <Divider style={styles.gas}/>
             </View>
-            </View>
-            <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
+
+
+                <Divider style={{ backgroundColor: 'blue' }}/>
+                <Text style={styles.subTitulo}>OU</Text>
+                <Divider style={{ backgroundColor: 'blue' }}/>
             <View style={styles.cardContent}>
-              <Image source={Gas1} 
-              style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
+                <Divider style={{ backgroundColor: 'blue' }}/>
             </View>
-            </View>
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
+            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CADASTRE-SE</Text></TouchableOpacity>
           </View>
         );
     }
