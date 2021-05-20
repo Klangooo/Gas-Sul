@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RNPickerSelect from "react-native-picker-select"
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -35,21 +35,44 @@ export default class confirmarPedido extends Component {
             </View>
            
             <Text style={styles.titulo}>Qual será o método de pagamento?</Text>
-
-            <RNPickerSelect //style={styles.dropdown}
-                style={pickerStyle}
-                placeholder={{label: 'Método de pagamento', value: '',}}
-                onValueChange={(value) => console.log(value)}
-                items={[
-                    { label: "Débito", value: "debito" },
-                    { label: "Crédito", value: "credito" },
-                    { label: "Dinheiro", value: "dinheiro" },
-                ]}
-                //containerStyle={pickerStyle}
+            <View>
+              <DropDownPicker
                 
-                //https://github.com/lawnstarter/react-native-picker-select/issues/100
-                //  useNativeAndroidPickerStyle={false}
-             />
+                items={[
+                  {label: 'Débito', value: 'debito'},
+                  {label: 'Crédito', value: 'credito'},
+                  {label: 'Dinheiro', value: 'dinheiro'},
+                ]}
+                defaultNull
+                placeholder="Método de pagamento"
+
+                defaultIndex={0}
+                onChangeItem={item => console.log(item.label, item.value)}
+
+                dropDownStyle={{
+                  backgroundColor: 'red',
+                  marginTop: 2,
+                }}
+
+                containerStyle={{
+                  width: 150,
+                  height: 70,
+                  alignSelf: 'center'
+                }}
+
+                itemStyle={{
+                  alignItems: 'flex-start'
+                }}
+
+                labelStyle={{
+                  fontSize: 14, color: '#000'
+                }}
+
+                placeholderStyle={{
+                  fontWeight: 'bold'
+                }}
+              />
+            </View>
 
             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
           </View>
