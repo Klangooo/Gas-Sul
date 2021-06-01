@@ -24,7 +24,7 @@ import logoImg from '../../../assets/icon.png';
 
       <TouchableOpacity 
           style = {styles.button}
-          onPress = {() => navigation.navigate('Confirmar') }>
+          onPress = {() => navigation.navigate('Cadastro') }>
         <Text style = {styles.buttonText}>Cadastro</Text>
       </TouchableOpacity>
 
