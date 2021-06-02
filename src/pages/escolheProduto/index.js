@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
+import NumericInput from 'react-numeric-input';
 
 export default class escolheProduto extends Component {
 
     
     
     render() {
-
       const { goBack } = this.props.navigation;
-
         return(
           <View style={styles.container}>
             <TouchableOpacity 
