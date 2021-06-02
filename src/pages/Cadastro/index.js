@@ -20,12 +20,14 @@ export default class Cadastro extends Component {
     }
     
     fazCadastro = async ()  => {
+      await AsyncStorage.clear();
       var erro = null;
+      var resultado = 0;
       if(this.state.senha == this.state.confirmarSenha){
         try{
-          await AsyncStorage.setItem('@nome', this.state.nome)
-          await AsyncStorage.setItem('@email', this.state.email)
-          await AsyncStorage.setItem('@senha', this.state.senha)
+          await AsyncStorage.setItem('1nome', this.state.nome)
+          await AsyncStorage.setItem('2email', this.state.email)
+          await AsyncStorage.setItem('3senha', this.state.senha)
           Keyboard.dismiss();
         } catch(e) {
           console.log(e)
@@ -36,7 +38,11 @@ export default class Cadastro extends Component {
         const valores = await AsyncStorage.multiGet(keys);
 
         try{
-          await axios.post('https://webhook.site/3fb43af7-44c0-43d1-9671-a7bb24768d93', {valores})
+          await axios.post('http://quiet-tundra-36008.herokuapp.com/public/api/cadastroapp', {valores})
+          .then(function (response) {
+            resultado = JSON.stringify(response.data)
+            console.log(resultado)
+          })
         } catch (e) {
         console.log(e)
         erro = e;
@@ -45,7 +51,7 @@ export default class Cadastro extends Component {
           this.props.navigation.navigate('Produtos')
         } else {
           console.log(erro)
-          Alert.alert("Erro!", "FFfFfF");
+          Alert.alert("Erro!", "O e-mail já está cadastrado, tente fazer login.");
         }
     }else{
       Alert.alert("Senha incorreta", "A sua senha não está igual à sua confrimação. Tente novamente!");
