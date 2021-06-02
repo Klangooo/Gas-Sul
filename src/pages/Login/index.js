@@ -1,12 +1,55 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, TextInput, Keyboard, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import { Divider } from 'react-native-elements';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default class escolheProduto extends Component {
+export default class login extends Component {
 
-    
+  constructor(props) {
+    super(props);
+    this.state = {
+    email: "",
+    senha: "",
+    };
+  }
+
+  fazLogin = async ()  => {
+    await AsyncStorage.clear();
+    var erro = null;
+      try{
+        await AsyncStorage.setItem('2email', this.state.email)
+        await AsyncStorage.setItem('3senha', this.state.senha)
+        Keyboard.dismiss();
+      } catch(e) {
+        console.log(e)
+      }
+
+      let keys;
+      keys = await AsyncStorage.getAllKeys();
+      const valores = await AsyncStorage.multiGet(keys);
+      console.log(valores)
+
+      var resultado = 0;
+      try{
+        await axios.post('http://quiet-tundra-36008.herokuapp.com/public/api/loginapp', {valores})
+        .then(function (response) {
+          resultado = JSON.stringify(response.data)
+          console.log(resultado)
+        })
+      } catch (e) {
+      console.log(e)
+      erro = e;
+      }
+      if(erro == null && resultado == '"Logado com sucesso"') {
+        this.props.navigation.navigate('Produtos')
+      } else {
+        console.log(erro)
+        Alert.alert("Dados incorretos.", "Tente revisar os dados inseridos.");
+      }
+  }
     
     render() {
       const { goBack } = this.props.navigation;
@@ -23,19 +66,27 @@ export default class escolheProduto extends Component {
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
             <Text style={styles.titulo}>Bem-Vindo(a)!</Text>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>E-mail</Text>
+            <TextInput 
+              value={this.state.email}
+              style = {styles.input}
+              keyboardType= 'email-address'
+              placeholder = 'E-mail'
+              onChangeText = {texto => this.setState({email : texto})} 
+            />
             </View>
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>Senha</Text>
+            <TextInput 
+              value={this.state.senha}
+              style = {styles.input}
+              placeholder = 'Senha'
+              onChangeText = {texto => this.setState({senha : texto})}
+              secureTextEntry={true}
+            />
             </View>
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>ENTRE</Text></TouchableOpacity>
+            <TouchableOpacity style = {styles.button} onPress = { this.fazLogin }><Text style={{color: 'white'}}>ENTRE</Text></TouchableOpacity>
             <Text style={styles.subTitulo}>Esqueceu sua senha?</Text>
-            <table>
-              <tr><td><Divider style={styles.divider1}/></td> 
-              <td><Text style={styles.subTitulo}>OU</Text></td>  
-              <td><Divider style={styles.divider1}/></td> </tr>
-            </table>
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CADASTRE-SE</Text></TouchableOpacity>
+            <Divider style={styles.divider1}/>
+            <TouchableOpacity style = {styles.button} onPress = {() => this.props.navigation.navigate('Cadastro') }><Text style={{color: 'white'}}>CADASTRE-SE</Text></TouchableOpacity>
           </View>
         );
     }
@@ -128,12 +179,16 @@ const styles = StyleSheet.create({
     },
     divider1: {
       backgroundColor: '#0B0D88',
-      width: 168,
       height: 2, 
     },
-    divider2: {
-      backgroundColor: '#0B0D88',
-      width: -130, 
+    input: { //Caixa do Formulário
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '50%',
+      padding: 8,
+      borderColor: '#082d95',
+      borderWidth: 1.5,
+      borderRadius: 3,
     },
 
   });
