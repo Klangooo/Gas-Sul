@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity} from 'reac
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
-import NumericInput from 'react-numeric-input';
+import NumericInput from 'react-native-numeric-input';
 
 export default class escolheProduto extends Component {
 
@@ -28,7 +28,10 @@ export default class escolheProduto extends Component {
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
+              <View style={styles.cardContentColuna}>
               <Text style={styles.cardPrice}>R$ XX,XX</Text>
+              <NumericInput onChange={value => console.log(value)} />
+              </View>
             </View>
             </View>
             <View style={styles.card}>
@@ -39,7 +42,7 @@ export default class escolheProduto extends Component {
               <Text style={styles.cardPrice}>R$ XX,XX</Text>
             </View>
             </View> 
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
+            <TouchableOpacity style = {styles.button} onPress = {() => this.props.navigation.navigate('Confirmar') }><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
           </View>
         );
     }
@@ -98,6 +101,9 @@ const styles = StyleSheet.create({
     },
     cardContent: {
       flexDirection: "row",
+    },
+    cardContentColuna: {
+      flexDirection: "column",
     },
     cardPrice: {
       textAlign: 'left',
