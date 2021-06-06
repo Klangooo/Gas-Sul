@@ -1,12 +1,38 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
 import NumericInput from 'react-native-numeric-input';
+import axios from 'axios';
 
 export default class escolheProduto extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+    preco1: "Carregando...",
+    preco2: "Carregando...",
+    falg: null,
+    };
+  }
+
+  componentDidMount = async () => {
+    var resultado = 0;
+    try{
+      await axios.get('https://webhook.site/54cf1a41-db6e-4542-b57a-6f52835e6bb2')
+      .then(function (response) {
+        resultado = JSON.stringify(response.data)
+        console.log(resultado);
+      });
+    } catch (e) {
+    console.log(e)
+    }
+    await this.setState({preco1 : resultado})
+    console.log(this.state.preco1)
+    await this.setState({preco2 : resultado})
+    await this.setState({flag : 1})
+  }
     
     
     render() {
@@ -23,26 +49,30 @@ export default class escolheProduto extends Component {
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
             <Text style={styles.titulo}>Escolha seu produto</Text>
-            <View style={styles.card}>
+            {!this.state.flag && <ActivityIndicator style={{flex: 1, flexDirection: 'row'}} size="large" color="#0B0D88" />}
+            {this.state.flag && <View style={styles.card}>
             <Text style={styles.cardTitulo}>GLP x litros</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
               <View style={styles.cardContentColuna}>
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
+              <Text style={styles.cardPrice}>{this.state.preco1}</Text>
               <NumericInput onChange={value => console.log(value)} />
               </View>
             </View>
-            </View>
-            <View style={styles.card}>
+            </View>}
+            {this.state.flag && <View style={styles.card}>
             <Text style={styles.cardTitulo}>GLP x litros</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
+              <View style={styles.cardContentColuna}>
+              <Text style={styles.cardPrice}>{this.state.preco2}</Text>
+              <NumericInput onChange={value => console.log(value)} />
+              </View>
             </View>
-            </View> 
-            <TouchableOpacity style = {styles.button} onPress = {() => this.props.navigation.navigate('Confirmar') }><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
+            </View>}
+            {this.state.flag && <TouchableOpacity style = {styles.button} onPress = {() => this.props.navigation.navigate('Confirmar') }><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
           </View>
         );
     }
