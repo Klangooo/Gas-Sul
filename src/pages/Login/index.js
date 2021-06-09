@@ -65,19 +65,19 @@ export default class login extends Component {
               style={styles.logo} />
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
             <Text style={styles.titulo}>Bem-Vindo(a)!</Text>
-            <View style={styles.card}>
+            <View >
             <TextInput 
               value={this.state.email}
-              style = {styles.input}
+              style={styles.card}
               keyboardType= 'email-address'
               placeholder = 'E-mail'
               onChangeText = {texto => this.setState({email : texto})} 
             />
             </View>
-            <View style={styles.card}>
+            <View >
             <TextInput 
               value={this.state.senha}
-              style = {styles.input}
+              style={styles.card}
               placeholder = 'Senha'
               onChangeText = {texto => this.setState({senha : texto})}
               secureTextEntry={true}
@@ -179,7 +179,8 @@ const styles = StyleSheet.create({
     },
     divider1: {
       backgroundColor: '#0B0D88',
-      height: 2, 
+      height: 2,
+      margin: 10 
     },
     input: { //Caixa do Formulário
       marginLeft: 'auto',
