@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
-
-import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
@@ -11,6 +10,25 @@ import Gas1 from '../../../assets/propane.png';
 
 export default class confirmarPedido extends Component {
     
+  constructor(props) {
+    super(props);
+    this.state = {
+    flagGeral: null,
+    flagDinheiro: null,
+    troco: 0,
+    };
+  }
+
+  pedeTroco = (pagamento) =>  {
+    this.setState({flagGeral : 1})
+    if(pagamento == 'dinheiro') {
+      this.setState({flagDinheiro : 1})
+    } else {
+      console.log("não é dinheiro")
+    }
+  }
+
+
     render() {
         const { goBack } = this.props.navigation;
         return(
@@ -39,15 +57,15 @@ export default class confirmarPedido extends Component {
               <DropDownPicker
                 
                 items={[
-                  {label: 'Débito', value: 'debito'},
-                  {label: 'Crédito', value: 'credito'},
+                  {label: 'Cartão de Débito', value: 'debito'},
+                  {label: 'Cartão de Crédito', value: 'credito'},
                   {label: 'Dinheiro', value: 'dinheiro'},
                 ]}
                 defaultNull
                 placeholder="Método de pagamento"
 
                 defaultIndex={0}
-                onChangeItem={item => console.log(item.label, item.value)}
+                onChangeItem={item => this.pedeTroco(item.value)}
 
                 dropDownStyle={{
                   backgroundColor: 'red',
@@ -73,8 +91,18 @@ export default class confirmarPedido extends Component {
                 }}
               />
             </View>
+            <View>
+            <Text style={styles.titulo}>Caso precise de troco, digite na caixa abaixo:</Text>
+            <TextInput 
+              value={this.state.troco}
+              style = {styles.input}
+              keyboardType= 'numeric'
+              placeholder = '$'
+              onChangeText = {texto => this.setState({troco : texto})} 
+            />
+            </View>
 
-            <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
+            {flagGeral && <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
           </View>
         );
     }
@@ -87,6 +115,15 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#E5E6E8',
+    },
+    input: { //Caixa do Formulário
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '50%',
+      padding: 8,
+      borderColor: '#082d95',
+      borderWidth: 1.5,
+      borderRadius: 3,
     },
     logo: {
         width: '60%',
