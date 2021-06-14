@@ -15,7 +15,7 @@ export default class confirmarPedido extends Component {
     this.state = {
     flagGeral: null,
     flagDinheiro: null,
-    troco: 0,
+    troco: "0",
     };
   }
 
@@ -102,7 +102,7 @@ export default class confirmarPedido extends Component {
             />
             </View>
 
-            {flagGeral && <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
+            {this.state.flagGeral && <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
           </View>
         );
     }
