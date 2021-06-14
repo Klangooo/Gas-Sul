@@ -57,7 +57,16 @@ export default class escolheProduto extends Component {
               style={styles.gas} />
               <View style={styles.cardContentColuna}>
               <Text style={styles.cardPrice}>{this.state.preco1}</Text>
-              <NumericInput onChange={value => console.log(value)} />
+              <NumericInput
+                textColor='#0B0D88'
+                iconStyle={{ color: '#F74B02' }}
+                borderColor= 'black' 
+                rightButtonBackgroundColor='#white' 
+                leftButtonBackgroundColor='white'
+                totalWidth={120}
+                rounded= 'true'
+                separatorWidth= {0}
+                onChange={value => console.log(value)} />
               </View>
             </View>
             </View>}
@@ -68,7 +77,16 @@ export default class escolheProduto extends Component {
               style={styles.gas} />
               <View style={styles.cardContentColuna}>
               <Text style={styles.cardPrice}>{this.state.preco2}</Text>
-              <NumericInput onChange={value => console.log(value)} />
+              <NumericInput 
+                textColor='#0B0D88' 
+                iconStyle={{ color: '#F74B02' }}
+                borderColor= 'black' 
+                rightButtonBackgroundColor='#white' 
+                leftButtonBackgroundColor='#white'
+                totalWidth={120}
+                rounded= 'true'
+                separatorWidth= {0}
+                onChange={value => console.log(value)} />
               </View>
             </View>
             </View>}
@@ -122,6 +140,9 @@ const styles = StyleSheet.create({
       shadowRadius: 2,
       backgroundColor: "white",
       marginBottom: '10%',
+    },
+    contador: {
+      backgroundColor: "red"
     },
     cardTitulo: {
       textAlign: 'left',
