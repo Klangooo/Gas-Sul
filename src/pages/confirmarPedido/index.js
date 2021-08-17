@@ -7,8 +7,34 @@ import Gas1 from '../../../assets/propane.png';
 
 
 
-
 export default class confirmarPedido extends Component {
+
+ 
+componentDidMount = async () => {
+  
+  var var_email = await AsyncStorage.getItem('2email') 
+  this.setState({nome: var_email})
+  var valores = [
+    [
+      "nome",
+      this.state.nome
+    ],[
+      "troco",
+      this.state.troco
+    ],
+
+  ]
+  try{
+    await axios.post('http:quiet-tundra-36008.herokuapp.com/public/api/pedido',{valores})
+    .then(function (response) {
+      resultado = JSON.stringify(response.data)
+      console.log(resultado);
+    });
+  } catch (e) { //esse aqui retorna se der erro
+  console.log(e) // tirar daqui pra baixo
+  }
+} 
+
     
   constructor(props) {
     super(props);
@@ -16,6 +42,13 @@ export default class confirmarPedido extends Component {
     flagGeral: null,
     flagDinheiro: null,
     troco: "0",
+    nome: "",
+    botijao1:'', // tem que ser os dados que o back espera //
+    botijao2: '', 
+    valor: '',
+    enedereco: '',
+    pagamento: '',
+    troco: '',
     };
   }
 
@@ -54,7 +87,7 @@ export default class confirmarPedido extends Component {
            
             <Text style={styles.titulo}>Qual será o método de pagamento?</Text>
             <View>
-              <DropDownPicker
+              <DropDownPicker //arrumar outro trem desse
                 
                 items={[
                   {label: 'Cartão de Débito', value: 'debito'},
@@ -100,13 +133,17 @@ export default class confirmarPedido extends Component {
               placeholder = '$'
               onChangeText = {texto => this.setState({troco : texto})} 
             />
-            </View>
+            
+            </View> {/*this.state.flagGeral && */}
 
-            {this.state.flagGeral && <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
+             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
           </View>
+          
+          
         );
     }
 }
+
 
 
 
