@@ -42,7 +42,7 @@ enviaValores = async () => {
   ]
   console.log(valores)
   try{
-    await axios.post('https://webhook.site/810c07c0-ee31-49d2-ad62-1e733cbafeca',{valores})
+    await axios.post('http:quiet-tundra-36008.herokuapp.com/public/api/pedido',{valores})
     .then(function (response) {
       resultado = JSON.stringify(response.data)
       console.log(resultado);
