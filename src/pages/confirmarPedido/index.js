@@ -4,14 +4,15 @@ import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, TextInput 
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
 export default class confirmarPedido extends Component {
 
  
-componentDidMount = async () => {
-  
+enviaValores = async () => {
+  var resultado = 0;
   var var_email = await AsyncStorage.getItem('2email') 
   this.setState({nome: var_email})
   var valores = [
@@ -19,13 +20,29 @@ componentDidMount = async () => {
       "nome",
       this.state.nome
     ],[
+      "botijao1",
+      this.state.troco
+    ],[
+      "botijao2",
+      this.state.nome
+    ],[
+      "valor",
+      this.state.troco
+    ],
+    [
+      "endereco",
+      this.state.nome
+    ],[
+      "pagamento",
+      this.state.troco
+    ],[
       "troco",
       this.state.troco
     ],
-
   ]
+  console.log(valores)
   try{
-    await axios.post('http:quiet-tundra-36008.herokuapp.com/public/api/pedido',{valores})
+    await axios.post('https://webhook.site/810c07c0-ee31-49d2-ad62-1e733cbafeca',{valores})
     .then(function (response) {
       resultado = JSON.stringify(response.data)
       console.log(resultado);
@@ -134,9 +151,8 @@ componentDidMount = async () => {
               onChangeText = {texto => this.setState({troco : texto})} 
             />
             
-            </View> {/*this.state.flagGeral && */}
-
-             <TouchableOpacity style = {styles.button}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
+            </View> 
+            <TouchableOpacity style = {styles.button} onPress = {this.enviaValores}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
           </View>
           
           
