@@ -54,7 +54,7 @@ export default class Cadastro extends Component {
           Alert.alert("Erro!", "O e-mail já está cadastrado, tente fazer login.");
         }
     }else{
-      Alert.alert("Senha incorreta", "A sua senha não está igual à sua confrimação. Tente novamente!");
+      Alert.alert("Senha incorreta", "A sua senha não está igual à sua confirmação. Tente novamente!");
     }
     }
     
