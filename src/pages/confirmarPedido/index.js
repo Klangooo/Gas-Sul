@@ -10,6 +10,27 @@ import axios from 'axios';
 
 export default class confirmarPedido extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+    flagGeral: null,
+    flagDinheiro: null,
+    troco: "0",
+    nome: "",
+    botijao1:'', // tem que ser os dados que o back espera //
+    botijao2: '', 
+    valor: 0,
+    enedereco: '',
+    pagamento: '',
+    troco: '',
+    };
+  }
+
+  componentDidMount = async () => {
+    var var_valor = await AsyncStorage.getItem('resultado')
+    await this.setState({valor: var_valor})
+    
+  }
  
 enviaValores = async () => {
   var resultado = 0;
@@ -44,7 +65,7 @@ enviaValores = async () => {
   ]
   console.log(valores)
   try{
-    await axios.post('http:quiet-tundra-36008.herokuapp.com/public/api/pedido',{valores})
+    await axios.post('https://webhook.site/22cc1913-8ff6-4af5-aaca-6d88ac16ea7c',{valores})
     .then(function (response) {
       resultado = JSON.stringify(response.data)
       console.log(resultado);
@@ -53,29 +74,6 @@ enviaValores = async () => {
   console.log(e) // tirar daqui pra baixo
   }
 } 
-
-    
-  constructor(props) {
-    super(props);
-    this.state = {
-    flagGeral: null,
-    flagDinheiro: null,
-    troco: "0",
-    nome: "",
-    botijao1:'', // tem que ser os dados que o back espera //
-    botijao2: '', 
-    valor: '',
-    enedereco: '',
-    pagamento: '',
-    troco: '',
-    };
-  }
-
-  componentDidMount = async () => {
-    var var_valor = await AsyncStorage.getItem('resultado1')
-    this.setState({valor: var_valor})
-    
-  }
 
   pedeTroco = (pagamento) =>  {
     this.setState({flagGeral : 1})

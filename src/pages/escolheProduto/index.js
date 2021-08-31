@@ -5,6 +5,8 @@ import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
 import NumericInput from 'react-native-numeric-input';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class escolheProduto extends Component {
 
@@ -14,15 +16,15 @@ export default class escolheProduto extends Component {
     preco1: "Carregando...",
     preco2: "Carregando...",
     falg: null,
-    quantidade1: 0,
-    quantidade2: 0,
+    total1: 0,
+    total2: 0,
     };
   }
 
   componentDidMount = async () => {
     var resultado = 0;
     try{
-      await axios.get('https://webhook.site/54cf1a41-db6e-4542-b57a-6f52835e6bb2')
+      await axios.get('https://webhook.site/22cc1913-8ff6-4af5-aaca-6d88ac16ea7c')
       .then(function (response) {
         resultado = JSON.stringify(response.data)
         console.log(resultado);
@@ -36,18 +38,26 @@ export default class escolheProduto extends Component {
     await this.setState({flag : 1})
   }
 
-  multiplicador = async () => {
-    var resultado1 = 0; 
-    var resultado2 = 0;
-    resultado1 = this.state.quantidade1 * this.state.preco1;
-    resultado2 = this.state.quantidade2 * this.state.preco2;
-    resultado1 = resultado1 + resultado2;
-    await AsyncStorage.setItem('resultado1', this.state.resultado1)
-    this.props.navigation.navigate('confirmarPedido')
-
+  multiplicador1 = (value) => {
+    var resultado = 0; 
+    resultado = value * this.state.preco1;
+    console.log({resultado})
+    this.setState({total1 : resultado})
   }
   
-    
+  multiplicador2 = (value) => {
+    var resultado = 0; 
+    resultado = value * this.state.preco2;
+    console.log({resultado})
+    this.setState({total2 : resultado})
+  }
+
+  passaPagina = async () => {
+    var resultado = this.state.total1 + this.state.total2
+    await AsyncStorage.setItem('resultado', JSON.stringify(resultado) )
+    console.log(await AsyncStorage.getItem('resultado'))
+    this.props.navigation.navigate('Confirmar')
+  }
     
     render() {
       const { goBack } = this.props.navigation;
@@ -80,7 +90,7 @@ export default class escolheProduto extends Component {
                 totalWidth={120}
                 rounded= 'true'
                 separatorWidth= {0}
-                onChange={value =>  this.setState({quantidade1 : value})}  />
+                onChange={value =>  this.multiplicador1(value)}  />
               </View>
             </View>
             </View>}
@@ -100,11 +110,11 @@ export default class escolheProduto extends Component {
                 totalWidth={120}
                 rounded= 'true'
                 separatorWidth= {0}
-                onChange={value =>  this.setState({quantidade2 : value})}  />
+                onChange={value =>  this.multiplicador2(value)}  />
               </View>
             </View>
             </View>}
-            {this.state.flag && <TouchableOpacity style = {styles.button} onPress = {() => this.props.navigation.navigate('Confirmar') }><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
+            {this.state.flag && <TouchableOpacity style = {styles.button} onPress = {() => this.passaPagina() }><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>}
           </View>
         );
     }
