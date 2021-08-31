@@ -14,6 +14,8 @@ export default class escolheProduto extends Component {
     preco1: "Carregando...",
     preco2: "Carregando...",
     falg: null,
+    quantidade1: 0,
+    quantidade2: 0,
     };
   }
 
@@ -33,6 +35,18 @@ export default class escolheProduto extends Component {
     await this.setState({preco2 : resultado})
     await this.setState({flag : 1})
   }
+
+  multiplicador = async () => {
+    var resultado1 = 0; 
+    var resultado2 = 0;
+    resultado1 = this.state.quantidade1 * this.state.preco1;
+    resultado2 = this.state.quantidade2 * this.state.preco2;
+    resultado1 = resultado1 + resultado2;
+    await AsyncStorage.setItem('resultado1', this.state.resultado1)
+    this.props.navigation.navigate('confirmarPedido')
+
+  }
+  
     
     
     render() {
@@ -66,7 +80,7 @@ export default class escolheProduto extends Component {
                 totalWidth={120}
                 rounded= 'true'
                 separatorWidth= {0}
-                onChange={value => console.log(value)} />
+                onChange={value =>  this.setState({quantidade1 : value})}  />
               </View>
             </View>
             </View>}
@@ -86,7 +100,7 @@ export default class escolheProduto extends Component {
                 totalWidth={120}
                 rounded= 'true'
                 separatorWidth= {0}
-                onChange={value => console.log(value)} />
+                onChange={value =>  this.setState({quantidade2 : value})}  />
               </View>
             </View>
             </View>}

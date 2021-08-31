@@ -14,7 +14,9 @@ export default class confirmarPedido extends Component {
 enviaValores = async () => {
   var resultado = 0;
   var var_email = await AsyncStorage.getItem('2email') 
+  var var_valor = await AsyncStorage.getItem('resultado1') 
   this.setState({nome: var_email})
+  
   var valores = [
     [
       "nome",
@@ -27,7 +29,7 @@ enviaValores = async () => {
       this.state.nome
     ],[
       "valor",
-      this.state.troco
+      this.state.valor
     ],
     [
       "endereco",
@@ -69,6 +71,12 @@ enviaValores = async () => {
     };
   }
 
+  componentDidMount = async () => {
+    var var_valor = await AsyncStorage.getItem('resultado1')
+    this.setState({valor: var_valor})
+    
+  }
+
   pedeTroco = (pagamento) =>  {
     this.setState({flagGeral : 1})
     if(pagamento == 'dinheiro') {
@@ -98,7 +106,7 @@ enviaValores = async () => {
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
-              <Text style={styles.cardPrice}>R$ XX,XX</Text>
+              <Text style={styles.cardPrice}>R$ {this.state.valor}</Text>
             </View>
             </View>
            
