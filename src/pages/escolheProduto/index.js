@@ -15,47 +15,53 @@ export default class escolheProduto extends Component {
     this.state = {
     preco1: "Carregando...",
     preco2: "Carregando...",
-    falg: null,
     total1: 0,
     total2: 0,
+    numBot1: 0,
+    numBot2: 0,
     };
   }
 
   componentDidMount = async () => {
-    var resultado = 0;
+    var resultado1 = 0;
+    var resultado2 = 0;
     try{
-      await axios.get('https://webhook.site/22cc1913-8ff6-4af5-aaca-6d88ac16ea7c')
+      await axios.get('http://quiet-tundra-36008.herokuapp.com/public/api/precobotijao')
       .then(function (response) {
-        resultado = JSON.stringify(response.data)
-        console.log(resultado);
+        resultado1 = response.data.botijao1
+        resultado2 = response.data.botijao2
       });
     } catch (e) {
     console.log(e)
     }
-    await this.setState({preco1 : resultado})
+    await this.setState({preco1 : resultado1})
+    await this.setState({preco2 : resultado2})
     console.log(this.state.preco1)
-    await this.setState({preco2 : resultado})
+    console.log(this.state.preco2)
     await this.setState({flag : 1})
   }
 
   multiplicador1 = (value) => {
     var resultado = 0; 
-    resultado = value * this.state.preco1;
+    resultado = value * parseFloat(this.state.preco1);
     console.log({resultado})
     this.setState({total1 : resultado})
+    this.setState({numBot1 : value})
   }
   
   multiplicador2 = (value) => {
     var resultado = 0; 
-    resultado = value * this.state.preco2;
+    resultado = value * parseFloat(this.state.preco2);
     console.log({resultado})
     this.setState({total2 : resultado})
+    this.setState({numBot2 : value})
   }
 
   passaPagina = async () => {
     var resultado = this.state.total1 + this.state.total2
     await AsyncStorage.setItem('resultado', JSON.stringify(resultado) )
-    console.log(await AsyncStorage.getItem('resultado'))
+    await AsyncStorage.setItem('numBotijao1', JSON.stringify(this.state.numBot1) )
+    await AsyncStorage.setItem('numBotijao2', JSON.stringify(this.state.numBot2) )
     this.props.navigation.navigate('Confirmar')
   }
     
@@ -75,12 +81,12 @@ export default class escolheProduto extends Component {
             <Text style={styles.titulo}>Escolha seu produto</Text>
             {!this.state.flag && <ActivityIndicator style={{flex: 1, flexDirection: 'row'}} size="large" color="#0B0D88" />}
             {this.state.flag && <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
+            <Text style={styles.cardTitulo}>GLP 13 kg</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
               <View style={styles.cardContentColuna}>
-              <Text style={styles.cardPrice}>{this.state.preco1}</Text>
+              <Text style={styles.cardPrice}>R$ {this.state.preco1}</Text>
               <NumericInput
                 textColor='#0B0D88'
                 iconStyle={{ color: '#F74B02' }}
@@ -95,12 +101,12 @@ export default class escolheProduto extends Component {
             </View>
             </View>}
             {this.state.flag && <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
+            <Text style={styles.cardTitulo}>GLP 45 kg</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
               <View style={styles.cardContentColuna}>
-              <Text style={styles.cardPrice}>{this.state.preco2}</Text>
+              <Text style={styles.cardPrice}>R$ {this.state.preco2}</Text>
               <NumericInput 
                 textColor='#0B0D88' 
                 iconStyle={{ color: '#F74B02' }}

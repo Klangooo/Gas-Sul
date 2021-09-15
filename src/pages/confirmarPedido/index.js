@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Logo from '../../../assets/logo.png';
 import Gas1 from '../../../assets/propane.png';
@@ -13,12 +13,9 @@ export default class confirmarPedido extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    flagGeral: null,
     flagDinheiro: null,
-    troco: "0",
+    troco: "00",
     nome: "",
-    botijao1:'', // tem que ser os dados que o back espera //
-    botijao2: '', 
     valor: 0,
     enedereco: '',
     pagamento: '',
@@ -27,66 +24,80 @@ export default class confirmarPedido extends Component {
   }
 
   componentDidMount = async () => {
-    var var_valor = await AsyncStorage.getItem('resultado')
-    await this.setState({valor: var_valor})
-    
+    await this.setState({valor: await AsyncStorage.getItem('resultado')})
   }
  
 enviaValores = async () => {
   var resultado = 0;
   var var_email = await AsyncStorage.getItem('2email') 
-  var var_valor = await AsyncStorage.getItem('resultado1') 
+  var var_valor = await AsyncStorage.getItem('resultado') 
+  var botijao1 = await AsyncStorage.getItem('numBotijao1')
+  var botijao2 = await AsyncStorage.getItem('numBotijao2') 
   this.setState({nome: var_email})
-  
+  if(this.state.troco == ""){
+    this.setState({troco:"00"})
+  }
   var valores = [
     [
       "nome",
       this.state.nome
-    ],[
+    ],
+    [
       "botijao1",
-      this.state.troco
-    ],[
+      botijao1
+    ],
+    [
       "botijao2",
-      this.state.nome
-    ],[
+      botijao2
+    ],
+    [
       "valor",
-      this.state.valor
+      var_valor
     ],
     [
       "endereco",
-      this.state.nome
-    ],[
+      this.state.enedereco
+    ],
+    [
       "pagamento",
-      this.state.troco
-    ],[
+      this.state.pagamento
+    ],
+    [
       "troco",
       this.state.troco
     ],
   ]
   console.log(valores)
   try{
-    await axios.post('https://webhook.site/22cc1913-8ff6-4af5-aaca-6d88ac16ea7c',{valores})
+    await axios.post('http://quiet-tundra-36008.herokuapp.com/public/api/pedido',{valores})
     .then(function (response) {
-      resultado = JSON.stringify(response.data)
+      resultado = response.data
       console.log(resultado);
     });
   } catch (e) { //esse aqui retorna se der erro
   console.log(e) // tirar daqui pra baixo
   }
+  if(resultado == "Pedido Cadastrado com sucesso") {
+    Alert.alert("Sucesso!", "O seu pedido já foi registrado!");
+  } else {
+    Alert.alert("Erro!", "Houve algum problema em registrar seu pedido, tente novamente mais tarde.");
+  }
 } 
 
-  pedeTroco = (pagamento) =>  {
-    this.setState({flagGeral : 1})
-    if(pagamento == 'dinheiro') {
+  pedeTroco = (value) =>  {
+    this.setState({flagDinheiro : null})
+    if(value == 'dinheiro') {
       this.setState({flagDinheiro : 1})
     } else {
-      console.log("não é dinheiro")
+      this.setState({troco : "00"})
     }
+    this.setState({pagamento : value})
   }
 
 
     render() {
         const { goBack } = this.props.navigation;
+        
         return(
           <View style={styles.container}>
             <TouchableOpacity 
@@ -100,62 +111,62 @@ enviaValores = async () => {
             <Text style={styles.subTitulo}>O seu Gás em casa</Text>
 
             <View style={styles.card}>
-            <Text style={styles.cardTitulo}>GLP x litros</Text>
+            <Text style={styles.cardTitulo}>Confirmar pedido:</Text>
             <View style={styles.cardContent}>
               <Image source={Gas1} 
               style={styles.gas} />
+              <View style={styles.teste}>
               <Text style={styles.cardPrice}>R$ {this.state.valor}</Text>
+              <TextInput 
+              multiline
+              numberOfLines={2}
+              value={this.state.enedereco}
+              style = {styles.inputEndereco}
+              placeholder = 'Endereço de entrega'
+              onChangeText = {texto => this.setState({enedereco : texto})} 
+            />
+              </View>
             </View>
             </View>
            
             <Text style={styles.titulo}>Qual será o método de pagamento?</Text>
-            <View>
-              <DropDownPicker //arrumar outro trem desse
-                
-                items={[
-                  {label: 'Cartão de Débito', value: 'debito'},
-                  {label: 'Cartão de Crédito', value: 'credito'},
-                  {label: 'Dinheiro', value: 'dinheiro'},
-                ]}
-                defaultNull
-                placeholder="Método de pagamento"
+            <View style={styles.pickerContainer}>
+            <RNPickerSelect
+              style={{	inputAndroid: {
+                color: '#aba',
+                justifyContent: 'center',
+                textAlign: 'center',
+                paddingHorizontal: 10,
+                paddingVertical: 8,
+                fontSize: 18,
+              },
 
-                defaultIndex={0}
-                onChangeItem={item => this.pedeTroco(item.value)}
-
-                dropDownStyle={{
-                  backgroundColor: 'red',
-                  marginTop: 2,
-                }}
-
-                containerStyle={{
-                  width: 150,
-                  height: 70,
-                  alignSelf: 'center'
-                }}
-
-                itemStyle={{
-                  alignItems: 'flex-start'
-                }}
-
-                labelStyle={{
-                  fontSize: 14, color: '#000'
-                }}
-
-                placeholderStyle={{
-                  fontWeight: 'bold'
-                }}
-              />
-            </View>
-            <View>
-            <Text style={styles.titulo}>Caso precise de troco, digite na caixa abaixo:</Text>
-            <TextInput 
-              value={this.state.troco}
-              style = {styles.input}
-              keyboardType= 'numeric'
-              placeholder = '$'
-              onChangeText = {texto => this.setState({troco : texto})} 
+              }}
+              useNativeAndroidPickerStyle={false}
+              onValueChange={(value) => this.pedeTroco(value)}
+              placeholder={{label: 'Método de pagamento', value: null}}
+              items={[
+                  { label: 'Cartão de crédito', value: 'credito' },
+                  { label: 'Cartão de débito', value: 'debito' },
+                  { label: 'Dinheiro', value: 'dinheiro' },
+              ]}
+              
             />
+            </View>
+            <View style={{flexDirection:"row", alignSelf:"center", marginBottom: 20}}>
+            {this.state.flagDinheiro && <Text style={{textAlignVertical: "center", color:"#F74B02", fontSize:20, fontWeight:"bold", marginLeft:"auto"}}>Troco para R$ </Text>}
+            {this.state.flagDinheiro && <TextInput 
+              value={this.state.troco}
+              style = {{     
+              width: 'auto',
+              padding: 8,
+              borderColor: '#082d95',
+              borderWidth: 1.5,
+              borderRadius: 3,}}
+              keyboardType= 'numeric'
+              placeholder = '  '
+              onChangeText = {texto => this.setState({troco : texto})} 
+            />}
             
             </View> 
             <TouchableOpacity style = {styles.button} onPress = {this.enviaValores}><Text style={{color: 'white'}}>CONFIRMAR</Text></TouchableOpacity>
@@ -178,6 +189,7 @@ const styles = StyleSheet.create({
     input: { //Caixa do Formulário
       marginLeft: 'auto',
       marginRight: 'auto',
+      marginBottom: 15,
       width: '50%',
       padding: 8,
       borderColor: '#082d95',
@@ -244,7 +256,6 @@ const styles = StyleSheet.create({
       marginRight: 30
     },
     button: {
-        paddingTop: 20,
         borderRadius: 40,
         paddingVertical: 15,
         paddingHorizontal: 40,
@@ -260,38 +271,23 @@ const styles = StyleSheet.create({
         width: 1 },
         alignSelf: 'center',
     },
-    dropdown: {
-        paddingTop: 20,
-        backgroundColor: "red",
-        width: "60%",
+    pickerContainer: {
+      backgroundColor:"#0B0D88",
+      padding: "2%",
+      marginBottom: 15,
+      marginTop: 10,
+      marginRight: "20%",
+      marginLeft: "20%",
+      borderRadius: 300,
+    
+    },
+    teste:{
+      flex: 0.9,
+    },
+    inputEndereco: {
+      padding: 8,
+      borderColor: '#082d95',
+      borderWidth: 1.5,
+      borderRadius: 3,
     }
-  });
-
-  const pickerStyle = {
-	inputIOS: {
-		color: 'white',
-		paddingTop: 13,
-		paddingHorizontal: 10,
-		paddingBottom: 12,
-	},
-	inputAndroid: {
-		color: 'white',
-	},
-	placeholderColor: 'white',
-	underline: { borderTopWidth: 0 },
-	icon: {
-		position: 'relative',
-		backgroundColor: 'transparent',
-		borderTopWidth: 5,
-		borderTopColor: '#00000099',
-		borderRightWidth: 5,
-		borderRightColor: 'transparent',
-		borderLeftWidth: 5,
-		borderLeftColor: 'transparent',
-        paddingHorizontal: 20,
-		width: 0,
-		height: 0,
-		top: 20,
-		right: 15,
-	},
-};
+});

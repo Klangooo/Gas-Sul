@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View, Image } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-import logoImg from '../../../assets/icon.png';
+import logoImg from '../../../assets/logo.png';
 
   export default function tela () {
     const navigation = useNavigation ();
